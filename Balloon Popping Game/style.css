@@ -1,74 +1,59 @@
-body{
-    font-family:sans-serif;
-    padding: 30px;
-    background:#ededed;
+body {
+    font-family: Arial;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-.wrapper{
-    max-width: 690px;
-    margin: 0 auto;
-}
-
-.blue {
-    color:#3f7abe;
-}
-
-h1{
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    color: #08a3d9;
-    text-transform: uppercase;
-    font-size: 30px;
-    color: #000380;
-}
-
-#balloon-gallery div{
-    background: #ff3300;
-    height: 121px;
-    width: 119px;
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
     text-align: center;
-    color: #ff3300;
-    font-size: 40px;
-    font-family: sans-serif, arial;
-    border-radius: 100%;
-    margin-top: 20px;
-    display: inline-block;
-    /* float: left; */
-    margin: 2.5px 5 px 2.5px 0px;
+    width: 700px;
 }
 
-#balloon-gallery div:nth-child(3n){
-    background: #ffce00;
-    color: #ffce00;
+#gameArea {
+    height: 400px;
+    background: #ddd;
+    position: relative;
+    overflow: hidden;
+    margin: 20px 0;
 }
 
-#balloon-gallery div:nth-child(3n-1){
-    background:#3f7abe;
-    color:#3f7abe;
+#score {
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-#balloon-gallery div:nth-child(5n){
-    background:#8e7a8e;
-    color:#8e7a8e;
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-#balloon-gallery div:nth-child(13){
-    background:#8e7a8e;
-    color:#8e7a8e;
+/* Balloon shape */
+.balloon {
+    width: 50px;
+    height: 65px;
+    border-radius: 50% 50% 45% 45%;
+    position: absolute;
+    bottom: -80px;
+    cursor: pointer;
 }
 
-#balloon-gallery div:nth-child(10n){
-    background:#ff3300;
-    color: #ff3300;
-}
-
-#balloon-gallery div:nth-child(4n){
-    clear:right;
-}
-
-#yay-no-balloons {
-    display:none;
-    color:#ff3300;
-    font-size:100px;
+/* balloon string */
+.balloon::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 25px;
+    background: black;
+    left: 50%;
+    bottom: -25px;
 }
