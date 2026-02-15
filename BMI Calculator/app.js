@@ -1,33 +1,99 @@
-const heightInput = document.getElementById('height');
-const weightInput = document.getElementById('weight');
-const button = document.getElementById('calculate');
-const result = document.getElementById('result');
-const form = document.getElementById('bmi-form');
+const gameArea=document.getElementById('gameArea');
+const scoreDisplay=document.getElementById('score');
+const button=document.getElementById('startButton');
+const targetText = document.getElementById("targetText");
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault(); // stops page refreshing on button click
-    let heigh = heightInput.value;
-    let weight = weightInput.value;
+let score=0;
+let gameInterval;
+let targetColor;
 
-    if (heigh === '' || weight === '') {
-        result.textContent = 'Please enter both height and weight.';
-        return;
-    }
+const colors=['red','orange','green','yellow','purple'];
 
-    let bmi = (weight / ((heigh / 100) ** 2));
-    bmi = Number(bmi.toFixed(2));
-    result.textContent = `Your BMI is ${bmi}.`;
+button.addEventListener('click', startGame);
 
-    if (bmi < 18.5) {
-        result.textContent += ' You are underweight.';
+function startGame() {
 
-    } else if (bmi >= 18.5 && bmi < 24.9) {
-        result.textContent += ' You have a normal weight.';
+    score = 0;
+    scoreDisplay.textContent = score;
 
-    } else if (bmi >= 25 && bmi < 29.9) {
-        result.textContent += ' You are overweight.';
+    // choose ONE target color
+    targetColor =
+        colors[Math.floor(Math.random() * colors.length)];
+    alert(`Target Color: ${targetColor.toUpperCase()}`);
+
+    // display on screen
+    targetText.innerHTML =
+            `Target: <span style="
+            color:${targetColor};
+            font-weight:bold;
+            font-size:22px">
+            ${targetColor.toUpperCase()}
+        </span>`;
+
+    clearInterval(gameInterval);
+    gameInterval = setInterval(createBalloon, 1000);
+}
+
+
+function createBalloon(){
+    const balloon=document.createElement('div');
+    balloon.classList.add('balloon');
+    
+    const balloonColor = colors[Math.floor(Math.random()*colors.length)];
+
+    balloon.style.backgroundColor = balloonColor;
+
+
+    balloon.style.left=Math.random()*(85)+"%";
+
+    let position = -80;
+
+    const move = setInterval(()=>{
+        position+=3;
+        balloon.style.bottom=position+"px";
+
+        if(position>gameArea.clientHeight){
+            clearInterval(move);
+            balloon.remove();
+        }
+    },50);
+
+    button.addEventListener('click',()=>{
+    score=0;
+    scoreDisplay.textContent=score;
+    clearInterval(gameInterval);
+    gameInterval=setInterval(createBalloon,1000);
+    });
+    balloon.addEventListener("mouseenter", () => {
+
+    if (balloonColor === targetColor) {
+        score++;
+        scoreDisplay.textContent = score;
+        balloon.remove();
+        clearInterval(move);
     } else {
-        result.textContent += ' You are obese.';
+        gameOver();
     }
-
 });
+
+
+    gameArea.appendChild(balloon);
+}
+
+button.addEventListener('click',()=>{
+    score=0;
+    scoreDisplay.textContent=score;
+    clearInterval(gameInterval);
+    gameInterval=setInterval(createBalloon,1000);
+});
+
+function gameOver() {
+    alert("Game Over! Your score: " + score);
+    clearInterval(gameInterval);
+    clearBalloons();
+}
+
+function clearBalloons() {
+    const balloons = document.querySelectorAll('.balloon');
+    balloons.forEach(balloon => balloon.remove());
+}
